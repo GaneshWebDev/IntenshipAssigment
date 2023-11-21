@@ -3,12 +3,10 @@ const userModel=require('./model/userModel');
 const connectDB=require('./db');
 const userRoute=require('./routes/userRoute');
 const path = require('path');
-const dotenv=require('dotenv');
 const bodyParser = require('body-parser');
 const { getSignedUrl }=require("@aws-sdk/s3-request-presigner");
 const app=express();
 const { S3Client,PutObjectCommand,GetObjectCommand }=require('@aws-sdk/client-s3');
-dotenv.config()
 const bucketName=process.env.BUCKET_NAME
 const  credentials={
     accessKeyId:"AKIAVODBZ54HEBE63TVR",
