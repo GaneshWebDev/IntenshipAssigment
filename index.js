@@ -9,17 +9,14 @@ const { getSignedUrl }=require("@aws-sdk/s3-request-presigner");
 const app=express();
 const { S3Client,PutObjectCommand,GetObjectCommand }=require('@aws-sdk/client-s3');
 dotenv.config()
-const bucketName=process.env.bucket_name
-const bucketRegion=process.env.bucket_region
-const accessKey=process.env.access_key
-const secretAccessKey=process.env.secret_access_key
+const bucketName=process.env.BUCKET_NAME
 const  credentials={
     accessKeyId:"AKIAVODBZ54HEBE63TVR",
     secretAccessKey:"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"
  }
 const s3=new S3Client({
  credentials,
- region:bucketRegion
+ region:"eu-north-1"
 });
 const multer = require('multer');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -34,7 +31,7 @@ app.post('/upload', upload.single('croppedImage'), async(req, res) => {
     const userEmail = authorizationHeader.substring('Bearer '.length);
     console.log(file,userEmail);
     const params={
-        Bucket:'kranhti1',
+        Bucket:"kranhti1",
         Key:req.file.originalname,
         Body:req.file.buffer,
         ContentType:req.file.mimetype,
@@ -83,7 +80,7 @@ app.get('/galleryImgs', async (req, res) => {
       return await getSignedUrl(
         s3,
         new GetObjectCommand({
-          Bucket: 'kranhti1',
+          Bucket:"kranhti1",
           Key: image,
         }),
         { expiresIn: 60 } // Adjust as needed
